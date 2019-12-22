@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Video Lab</title>
+  </head>
+  <body>
+    <button class="fullscreen-button" type="button" name="button">Go Full Screen</button>
+    <video controls poster="http://placekitten.com/480/270">
+      <source src="https://storage.googleapis.com/webfundamentals-assets/videos/chrome.webm#t=5,10" type="video/webm">
+      <source src="https://storage.googleapis.com/webfundamentals-assets/videos/chrome.mp4#t=5,10" type="video/mp4">
+      <p>This browser does not support the video element.</p>
+    </video>
+
+    <script type="text/javascript">
+        const myVideo = document.querySelector('video');
+        console.log(myVideo.canPlayType('video/mp4')); // maybe
+        console.log(myVideo.canPlayType('video/mp4; codecs="avc1.42E01E, mp4a.40.2"')); // probably
+        // ---
+        setTimeout(() => {
+          console.log(myVideo.currentSrc); // https://storage.googleapis.com/webfundamentals-assets/videos/chrome.webm#t=5,10
+          console.log(myVideo.videoWidth, myVideo.videoHeight)
+        }, 3000)
+
+        document.querySelector('.fullscreen-button').addEventListener('click', () => {
+          // document.body.requestFullscreen(); // for the whole page to go full screen.
+          myVideo.requestFullscreen();
+        })
+
+        myVideo.addEventListener("fullscreenchange", () => {
+          console.log('is full screen?', Boolean(document.fullscreenElement)); // true / false
+        });
+
+    </script>
+  </body>
+</html>

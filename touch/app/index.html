@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Touch</title>
+    <style>
+      a {
+        user-select: none;
+      }
+
+      .button__swipe {
+        display: block;
+        width: 100%;
+        max-width: 400px;
+        background: skyblue;
+        padding: 30px;
+        transition: 250ms linear;
+      }
+    </style>
+  </head>
+  <body>
+    <a href="#">Click me!</a>
+
+    <button class="button__swipe" type="button" name="button">Swipe Me</button>
+
+    <script type="text/javascript">
+      const button = document.querySelector('.button__swipe');
+
+      const updateDrag = ({target, clientX}) => (event) => window.requestAnimationFrame(() => {
+        const transform = event.clientX - clientX;
+        target.style.transform = `translateX(${transform}px)`;
+        event.preventDefault();
+      })
+
+      const stopDrag = ({target, pointerId, callback}) => (event) => {
+        target.style.transform = `translateX(0px)`;
+        target.releasePointerCapture(pointerId);
+        event.preventDefault();
+      };
+
+      const startDrag = (event) => {
+        const { target, pointerId, clientX } = event;
+        const handleUpdateDrag = updateDrag({ target, clientX });
+        const handleStopDrag = stopDrag({target, pointerId});
+        const handleDestroyDrag = (event) => {
+            handleStopDrag(event);
+            document.removeEventListener('pointermove', handleUpdateDrag, true)
+        };
+
+        document.addEventListener('pointermove', handleUpdateDrag, true);
+        document.addEventListener('pointerup', handleDestroyDrag, true);
+        document.addEventListener('pointercancel', handleDestroyDrag, true);
+        target.setPointerCapture(pointerId);
+      }
+      button.addEventListener('pointerdown', startDrag);
+    </script>
+  </body>
+</html>

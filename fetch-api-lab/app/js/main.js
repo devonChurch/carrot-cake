@@ -21,15 +21,31 @@ function logResult(result) {
 }
 
 function logError(error) {
-  console.log('Looks like there was a problem:', error);
+  console.error(error);
 }
 
 
 // Fetch JSON ----------
 
 function fetchJSON() {
-  // TODO
+  fetch('./examples/animals.json')
+    .then(response => {
+      isError = !response.ok;
+      if(isError) throw new Error(response.statusText);
+      return response;
+    })
+    .then(response => response.json())
+    .then(data => console.log(data))
+    .catch(logError)
 }
+// async function fetchJSON() {
+//   try {
+//     const response = await fetch('./examples/animals.json');
+//     console.log(response);
+//   } catch(error) {
+//     console.error(error);
+//   }
+// }
 const jsonButton = document.getElementById('json-btn');
 jsonButton.addEventListener('click', fetchJSON);
 
@@ -37,7 +53,22 @@ jsonButton.addEventListener('click', fetchJSON);
 // Fetch Image ----------
 
 function fetchImage() {
-  // TODO
+  fetch('./examples/fetching.jpg')
+    .then(response => {
+      if (!response.ok) {
+        throw new Error(response.statusText);
+      }
+      return response;
+    })
+    .then(response => response.blob())
+    .then(blob => {
+      // console.log(blob) // { ... }
+      // console.log(src); // blob:http://localhost:8080/69f9192e-101c-4448-90cd-d3994d7a8586
+      const imgNode = document.createElement('img');
+      imgNode.src = window.URL.createObjectURL(blob);
+      document.getElementById('img-container').appendChild(imgNode);
+    })
+    .catch(error => console.error(error));
 }
 const imgButton = document.getElementById('img-btn');
 imgButton.addEventListener('click', fetchImage);
@@ -45,8 +76,15 @@ imgButton.addEventListener('click', fetchImage);
 
 // Fetch text ----------
 
-function fetchText() {
-  // TODO
+async function fetchText() {
+  try {
+    const response = await fetch('./examples/words.txt');
+    if (!response.ok) throw new Error(response.statusText);
+    const text = await response.text();
+    document.getElementById('message').append(text);
+  } catch (error) {
+    console.error(error);
+  }
 }
 const textButton = document.getElementById('text-btn');
 textButton.addEventListener('click', fetchText);
@@ -55,7 +93,14 @@ textButton.addEventListener('click', fetchText);
 // HEAD request ----------
 
 function headRequest() {
-  // TODO
+  fetch('./examples/fetching.jpg', {
+    method: 'HEAD'
+  })
+    .then(response => {
+      if (!response.ok) throw new Error(response.statusText);
+      console.log(response.headers.get('content-length')); // 66139 (bytes)
+    })
+    .catch(error => console.error(error))
 }
 const headButton = document.getElementById('head-btn');
 headButton.addEventListener('click', headRequest);
@@ -65,7 +110,21 @@ headButton.addEventListener('click', headRequest);
 
 /* NOTE: Never send unencrypted user credentials in production! */
 function postRequest() {
-  // TODO
+  fetch('http://localhost:5000/', {
+    method: 'POST',
+    body: new FormData(document.getElementById('msg-form')), // 'name=david&message=hello'
+    // mode: 'no-cors'
+    headers: {
+      potato: 'banana'
+    }
+  })
+  .then(response => {
+    console.log(response);
+    if (!response.ok) throw new Error(response.statusText);
+    return response;
+  })
+  .then(response => console.log(response))
+  .catch(error => console.error(error))
 }
 const postButton = document.getElementById('post-btn');
 postButton.addEventListener('click', postRequest);

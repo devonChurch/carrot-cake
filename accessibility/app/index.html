@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+
+
+    <button id="showSection" type="button">Show Section</button>
+
+    <section tabindex="-1" style="display: none;">
+      <ul>
+        <li><button type="button">One</button></li>
+        <li><button type="button">Two</button></li>
+        <li><button type="button">Three</button></li>
+      </ul>
+    </section>
+
+    <script type="text/javascript">
+      document.getElementById('showSection').addEventListener('click', () => {
+        const section = document.querySelector('section')
+        section.style.display = 'block';
+        section.focus();
+      });
+    </script>
+
+
+    <hr>
+
+    <button id="showDialog" type="button">Show Dialog</button>
+
+    <dialog>
+      <ul>
+        <li><button type="button">One</button></li>
+        <li><button type="button">Two</button></li>
+        <li><button type="button">Three</button></li>
+      </ul>
+    </dialog>
+
+    <script type="text/javascript">
+      document.getElementById('showDialog').addEventListener('click', () => {
+        const dialog = document.querySelector('dialog');
+        dialog.setAttribute('open', true);
+      });
+    </script>
+
+    <hr>
+
+    <img src="/assets/content-divider.svg" alt="" />
+
+    <button type="button" aria-label="close modal">❌</button>
+
+    <label id="d4e5f6" for="1a2b3c">First Name</label>
+    <input id="1a2b3c" aria-labelledby="d4e5f6" type="text" value="John" />
+
+    <hr />
+
+    <input type="checkbox" name="" value="potato">
+
+    <li tabindex="0" class="checkbox" role="checkbox" checked aria-checked="true">
+      Receive promotional offers
+    </li>
+
+    <button id="focus-1" type="button">hello</button>
+
+    <style media="screen">
+      #focus-1 {
+        appearance: none;
+        border: 0;
+        padding: 20px;
+        background: skyblue;
+      }
+
+      button:focus:not(:focus-visible) {
+        outline: 0;
+      }
+
+      button:focus-visible {
+        outline: 3px solid orange;
+      }
+    </style>
+
+    <div aria-hidden="true">Some text.</div>
+
+    <div aria-live="polite" aria-atomic="true">The year is <span id="year">1999</span></div>
+
+  </body>
+</html>

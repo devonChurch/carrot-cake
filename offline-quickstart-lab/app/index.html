@@ -19,6 +19,9 @@ limitations under the License.
   <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
   <meta charset="utf-8">
   <title>Space Missions</title>
+  <link rel="manifest" href="/manifest.webmanifest">
+  <meta name="theme-color" content="#FF9800"/>
+  <link rel="apple-touch-icon" href="/icon-192x192.png">
   <link rel="stylesheet" href="styles/main.css" />
 </head>
 
@@ -27,6 +30,9 @@ limitations under the License.
     <h1>Space Missions</h1>
   </header>
   <main>
+    <section id="installBanner" class="banner">
+      <button id="installBtn">Install app</button>
+    </section>
     <section class="card">
       <div class="img-container">
         <!-- CC0 image from https://unsplash.com/photos/NuE8Nu3otjo -->
@@ -73,7 +79,33 @@ limitations under the License.
     </ul>
   </footer>
 
-   <!-- TODO Register the service worker -->
+  <script type="text/javascript">
+    if('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('./service-worker.js')
+        .then(regestration => {
+          console.log('registered', regestration);
+        })
+        .catch(error => console.error(error))
+
+      window.addEventListener('beforeinstallprompt', event => {
+        console.log('*** before install');
+        event.preventDefault();
+        const promptEvent = event;
+        const promptBanner = document.getElementById('installBanner');
+        const promptButton = promptBanner.querySelector('button');
+
+        promptBanner.style.display = 'block';
+
+        promptButton.addEventListener('click', (event) => {
+          promptEvent.prompt();
+          promptEvent.userChoice().then(choice => {
+            console.log('chosen', userChoice);
+            promptBanner.style.display = 'none';
+          }).catch(error => console.error(error));
+        })
+      })
+    }
+  </script>
 
 </body>
 </html>

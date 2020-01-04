@@ -13,23 +13,133 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 */
-var idbApp = (function() {
+
+var DEFAULT_ITEMS = [
+    {
+      name: 'Couch',
+      id: 'cch-blk-ma',
+      price: 499.99,
+      color: 'black',
+      material: 'mahogany',
+      description: 'A very comfy couch',
+      quantity: 3
+    },
+    {
+      name: 'Armchair',
+      id: 'ac-gr-pin',
+      price: 299.99,
+      color: 'grey',
+      material: 'pine',
+      description: 'A plush recliner armchair',
+      quantity: 7
+    },
+    {
+      name: 'Stool',
+      id: 'st-re-pin',
+      price: 59.99,
+      color: 'red',
+      material: 'pine',
+      description: 'A light, high-stool',
+      quantity: 3
+    },
+    {
+      name: 'Chair',
+      id: 'ch-blu-pin',
+      price: 49.99,
+      color: 'blue',
+      material: 'pine',
+      description: 'A plain chair for the kitchen table',
+      quantity: 1
+    },
+    {
+      name: 'Dresser',
+      id: 'dr-wht-ply',
+      price: 399.99,
+      color: 'white',
+      material: 'plywood',
+      description: 'A plain dresser with five drawers',
+      quantity: 4
+    },
+    {
+      name: 'Cabinet',
+      id: 'ca-brn-ma',
+      price: 799.99,
+      color: 'brown',
+      material: 'mahogany',
+      description: 'An intricately-designed, antique cabinet',
+      quantity: 11
+    }
+  ];
+
+const DB_VERSION = 4;
+const DB_NAME = 'couches-n-things';
+
+window.idbApp = (function() {
   'use strict';
 
   // TODO 2 - check for support
+  if(!('indexedDB' in window)) {
+    console.warn('your browser does not support indexedDB');
+    return;
+  }
 
-  var dbPromise;
+  const { openDB, deleteDB, unwrap, wrap } = window.idb;
 
-  function addProducts() {
+  var dbPromise = openDB(DB_NAME, DB_VERSION, {
+    upgrade: (db, oldVersion, newVersion, tx) => {
+      console.log('upgrade', {db, oldVersion, newVersion, tx});
+      if (!oldVersion) {
+        console.log('first time to init');
+        const store = db.createObjectStore('products', {keyPath: 'id'});
+      }
+
+      console.log('add indexes');
+      tx.store.createIndex('name', 'name', {unique: true});
+      tx.store.createIndex('price', 'price');
+      tx.store.createIndex('description', 'description');
+    }
+  });
+  // console.log('dbPromise', dbPromise);
+
+  const addProducts = async () => {
+    console.log('addProducts');
 
     // TODO 3.3 - add objects to the products store
 
+    try {
+      const db = await dbPromise;
+      const tx = db.transaction('products', 'readwrite');
+
+      DEFAULT_ITEMS.map(item => tx.store.put(item));
+      await tx.done;
+
+      // Shortcut...
+      // const updates = DEFAULT_ITEMS.map(item => db.put('products', item));
+      // await Promise.all(updates);
+
+    } catch (error) {
+      console.error(error);
+    }
   }
 
-  function getByName(key) {
+  const getByName = async (key) => {
+
+    console.log('getByName', key);
 
     // TODO 4.3 - use the get method to get an object by name
 
+    try {
+      const db = await dbPromise;
+      const tx = db.transaction('products', 'readonly');
+      let items = await tx.store.index('name').openCursor('Chair');
+
+      while(items.request) {
+        console.log(items.key, items.value);
+        await items.continue();
+      }
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   function displayByName() {
@@ -51,9 +161,27 @@ var idbApp = (function() {
     });
   }
 
-  function getByPrice() {
+  const getByPrice = async () => {
+
+    console.log('getByPrice');
 
     // TODO 4.4a - use a cursor to get objects by price
+
+
+    try {
+      const db = await dbPromise;
+      const tx = db.transaction('products', 'readonly');
+      const range = IDBKeyRange.bound(300, 500)
+      let items = await tx.store.index('price').openCursor(range);
+
+      while(items.request) {
+        console.log(items.key, items.value);
+        await items.continue();
+      }
+
+    } catch (error) {
+      console.error(error);
+    }
 
   }
 

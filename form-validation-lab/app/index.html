@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Form Validation</title>
+    <meta
+      name="description"
+      content="Preparation for the mobile experts exam"
+    />
+    <link rel="stylesheet" href="/main.css" />
+  </head>
+  <body>
+    <main class="app">
+      <section>
+        <form id="queryForm" class="form">
+          <h1>Form:</h1>
+
+          <div class="form__item">
+            <input
+              class="form__input"
+              id="fullname"
+              type="text"
+              name="full name"
+              value=""
+              pattern="[a-zA-Z]+(-*)(\s{1}([a-zA-Z]|-)+){1,}"
+            />
+            <label class="form__label" for="fullname">Full name:</label>
+          </div>
+
+          <div class="form__item">
+            <input
+              class="form__input"
+              id="country"
+              type="text"
+              name="country"
+              value=""
+            />
+            <label class="form__label" for="country">Counrty:</label>
+          </div>
+
+          <div class="form__item">
+            <input
+              class="form__input"
+              id="quantity"
+              type="number"
+              name="quantity"
+              value=""
+              min="1"
+              max="25"
+              required
+            />
+            <label class="form__label" for="quantity">Quantity:</label>
+          </div>
+
+          <div class="form__item">
+            <input
+              class="form__input"
+              id="password"
+              type="password"
+              name="password"
+              value=""
+              required
+            />
+            <label class="form__label" for="password">Password:</label>
+          </div>
+
+          <button class="form__submit" type="submit" name="submit">
+            Search
+          </button>
+        </form>
+        <h2>Items:</h2>
+        <ul id="item-list" class="items">
+          <!-- From server. -->
+        </ul>
+        <form id="curateForm" class="form">
+          <div class="form__item">
+            <input
+              class="form__input"
+              id="lessThan"
+              list="lessThanOptions"
+              type="number"
+              name="less than"
+              value=""
+              min="100000"
+              max="999999"
+            />
+            <datalist id="lessThanOptions">
+              <option value="100001" />
+              <option value="200000" />
+              <option value="300000" />
+              <option value="400000" />
+              <option value="500000" />
+              <option value="600000" />
+              <option value="700000" />
+              <option value="800000" />
+              <option value="900000" />
+              <option value="999999" />
+            </datalist>
+            <label class="form__label" for="lessThan">Less than:</label>
+          </div>
+        </form>
+
+        <picture>
+          <source
+            srcset="/images/horses_small.jpg"
+            media="(max-width: 46rem)"
+          />
+          <img
+            class="image"
+            src="/images/horses_medium.jpg"
+            alt="Horses in a field"
+          />
+        </picture>
+
+        <img
+          class="image"
+          src="/images/horses-800_large_1x.jpg"
+          srcset="
+            /images/horses-800_large_1x.jpg  1x,
+            /images/horses-1600_large_2x.jpg 2x
+          "
+          alt="Horses in a field"
+        />
+      </section>
+    </main>
+    <script type="text/javascript" src="/idb.js"></script>
+    <script type="text/javascript" src="/main.js"></script>
+    <script type="text/javascript">
+      if ("serviceWorker" in navigator) {
+        navigator.serviceWorker
+          .register("/sw.js")
+          .then(() => console.log("registered service worker"))
+          .catch(error => console.error(error));
+      }
+    </script>
+  </body>
+</html>

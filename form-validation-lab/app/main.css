@@ -1,0 +1,114 @@
+html {
+  box-sizing: border-box;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+
+body {
+  overflow-x: hidden;
+}
+
+.app {
+  max-width: 25rem;
+  margin: auto;
+  font-size: 14px;
+  font-family: sans-serif;
+}
+
+@media screen and (min-width: 32rem) {
+  .app {
+    font-size: 16px;
+  }
+}
+
+.form {
+  display: grid;
+  grid-gap: 2rem;
+}
+
+.form__label {
+  grid-row-start: 1;
+  position: relative;
+}
+
+[required] ~ .form__label:after {
+  position: relative;
+  content: "*";
+  display: inline;
+  color: red;
+  margin-left: 0.25rem;
+}
+
+.form__item {
+  display: grid;
+  grid-gap: 0.5rem;
+}
+
+.form__input {
+  appearance: none;
+  border: 2px solid lightgray;
+  border-radius: 3px;
+  padding: 0.5rem 1rem;
+
+  outline: 0; /* replace with custom design. */
+}
+
+.form--attempted .form__input:valid,
+.input--attempted.form__input:valid {
+  border-color: teal;
+}
+
+.form--attempted .form__input:invalid,
+.input--attempted.form__input:invalid {
+  border-color: red;
+}
+
+.form__submit:focus,
+.form__input:focus {
+  box-shadow: 0 0 0 3px skyblue;
+}
+
+.form__submit {
+  appearance: none;
+  justify-self: start;
+  padding: 0.5rem 1rem;
+  border-radius: 3px;
+  border: 2px solid lightgray;
+  transition: background 250ms;
+
+  outline: 0; /* replace with custom design. */
+}
+
+.form__submit:hover {
+  background: lightgray;
+}
+
+.items {
+  list-style: none;
+  padding: 0;
+}
+
+.item {
+  padding: 1rem;
+  background: lightgray;
+}
+
+.item:nth-of-type(odd) {
+  background: gainsboro;
+}
+
+.image {
+  width: 100%;
+  margin: 1rem auto;
+}
+
+@media screen and (min-width: 46rem) {
+  .image {
+    transform: translateX(-10rem);
+    width: calc(100% + 20rem);
+  }
+}

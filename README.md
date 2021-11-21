@@ -1,17 +1,19 @@
-# PWA Training Labs
+# Carrot Cake 🥕🍰😋
 
-This repo contains open-source training labs for building Progressive Web Apps.
+## 👋 What
 
-## Getting started
+Study material associated with the official [**Google Developers Mobile Web Specialist**](https://developers.google.com/certification) certification.
 
-The instructions for this course currently exist as a [series of Codelabs](https://codelabs.developers.google.com/dev-pwa-training/). There are also corresponding [video lessons](https://www.youtube.com/playlist?list=PLNYkxOF6rcIB2xHBZ7opgc2Mv009X87Hh) for each section.
+## 🤷 Why
 
-## Contributing
+As a passionate Front-end Developer, achieving this certification was validation of my _ability_, _drive_ and _advocacy_ around the Web ecosystem.
 
-If you find a bug or think something could be better, please file an issue!
-* If you think a code change should be made, feel free to file a PR.
-* If you think the instructions should be updated, please file a bug instead of a PR. The instructions for this project are generated from internal documents, so we can't use PRs to update them.
+## 🏆 Outcome
 
-## Note
+I have successfully completed my exam and have obtained the title of **Google Developers Mobile Web Specialist**.
 
-This is not an official Google product.
+[**More details about the certification and its validity can be found here.**](https://www.credential.net/d1d43c7d-14a2-4213-9f0b-8eacb2789de2)
+
+![Google Developers Mobile Web Specialist Certification](https://user-images.githubusercontent.com/15273233/142745970-5291be13-b5f8-486e-b5ec-64ba393d24fd.png)
+
+![Google certifications in New Zealand](https://user-images.githubusercontent.com/15273233/142745972-7de5a653-88c4-4132-bf8a-327109fd878f.png)
